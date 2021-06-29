@@ -3,6 +3,8 @@
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
 
+[![Test Coverage](https://api.codeclimate.com/v1/badges/d8c6396e03ee293a6a0e/test_coverage)](https://codeclimate.com/github/temirKhan42/frontend-project-lvl2/test_coverage)
+
 ![Action Status](https://github.com/temirKhan42/frontend-project-lvl2/actions/workflows/node.js.yml/badge.svg)
 
 ### Using the gendiff utility
