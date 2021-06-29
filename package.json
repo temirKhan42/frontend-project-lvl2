@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx --node-options --experimental-vm-modules jest"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,10 @@
     "url": "https://github.com/temirKhan42/frontend-project-lvl2/issues"
   },
   "homepage": "https://github.com/temirKhan42/frontend-project-lvl2#readme",
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {}
+  },
   "dependencies": {
     "commander": "^7.2.0",
     "lodash": "^4.17.21"
