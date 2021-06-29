@@ -20,6 +20,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
@@ -28,6 +29,7 @@ jobs:
       - run: npm run build --if-present
       - run: make lint
       - run: make test
+
       - name: coverage
         uses: paambaati/codeclimate-action@v2.7.4
         env:
