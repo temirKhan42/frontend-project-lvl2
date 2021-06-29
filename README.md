@@ -3,5 +3,7 @@
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
 
+![Action Status](https://github.com/temirKhan42/frontend-project-lvl2/actions/workflows/node.js.yml/badge.svg)
+
 ### Using the gendiff utility
 [![asciicast](https://asciinema.org/a/rS43Ua7AvAsOrvJWQzMOAFldS.svg)](https://asciinema.org/a/rS43Ua7AvAsOrvJWQzMOAFldS)
