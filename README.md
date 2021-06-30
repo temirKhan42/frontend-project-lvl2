@@ -7,5 +7,8 @@
 
 ![Action Status](https://github.com/temirKhan42/frontend-project-lvl2/actions/workflows/node.js.yml/badge.svg)
 
-### Using the gendiff utility
+### Show options of the gendiff utility
 [![asciicast](https://asciinema.org/a/rS43Ua7AvAsOrvJWQzMOAFldS.svg)](https://asciinema.org/a/rS43Ua7AvAsOrvJWQzMOAFldS)
+
+### Using the gendiff
+[![asciicast](https://asciinema.org/a/ge9TxWIHRbCuvbtcNY3GMgPU8.svg)](https://asciinema.org/a/ge9TxWIHRbCuvbtcNY3GMgPU8)
