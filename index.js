@@ -1,5 +1,5 @@
 import { Command } from 'commander/esm.mjs';
-import generateDiff from './lib/generateDiff.js';
+import generateDiff from './src/generateDiff.js';
 
 const genDiff = () => {
   const program = new Command();

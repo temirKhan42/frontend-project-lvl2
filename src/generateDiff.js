@@ -1,16 +1,12 @@
 import path from 'path';
 import { readFileSync } from 'fs';
 import _ from 'lodash';
+import getParsingData from './parsers.js';
 
-const normolizePath = (filePathCollect) => (
-  filePathCollect
+const getDataCollection = (filePathCollection) => (
+  filePathCollection
     .map((filePath) => (filePath.startsWith('/') ? filePath : path.resolve(filePath)))
-);
-
-const getDataCollection = (filePathCount) => (
-  filePathCount
     .map((filePath) => readFileSync(filePath, 'utf8'))
-    .map((fileContent) => JSON.parse(fileContent))
 );
 
 const includesArray = (array, subArr) => array.some((arr) => _.isEqual(arr, subArr));
@@ -24,21 +20,21 @@ const getDiff = ([data1, data2]) => {
       const key = keyVal[0];
       const value = keyVal[1];
       if (!includesArray(data1KeyVal, keyVal)) {
-        return `+ ${key}: ${value}${'\n'}`;
+        return `  + ${key}: ${value}${'\n'}`;
       }
       if (!includesArray(data2KeyVal, keyVal)) {
-        return `- ${key}: ${value}${'\n'}`;
+        return `  - ${key}: ${value}${'\n'}`;
       }
-      return `  ${key}: ${value}${'\n'}`;
+      return `    ${key}: ${value}${'\n'}`;
     })
     .reduce((acc, line) => `${acc}${line}`);
 };
 
-const generateDiff = (...filepathCount) => {
-  const absolutePathCollection = normolizePath(filepathCount);
-  const dataCollect = getDataCollection(absolutePathCollection);
-  const result = `{\n${getDiff(dataCollect)}}`;
-  return result;
+const generateDiff = (...filepathCollection) => {
+  const ext = path.extname(filepathCollection[0]);
+  const dataCollection = getDataCollection(filepathCollection);
+  const parsingDataCollection = getParsingData(ext, dataCollection);
+  return `{\n${getDiff(parsingDataCollection)}}`;
 };
 
 export default generateDiff;
