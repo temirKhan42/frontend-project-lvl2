@@ -1,14 +1,13 @@
 import yaml from 'js-yaml';
 
-const getParsingData = (ext, dataCollection) => {
-  let parsingData = '';
+const getParsingData = (ext, data) => {
   if (ext === '.json') {
-    parsingData = dataCollection.map((fileContent) => JSON.parse(fileContent));
-  } else if (ext === '.yml' || ext === '.yaml') {
-    parsingData = dataCollection.map((data) => yaml.load(data));
+    return JSON.parse(data);
   }
-
-  return parsingData;
+  if (ext === '.yml' || ext === '.yaml') {
+    return yaml.load(data);
+  }
+  return '';
 };
 
 export default getParsingData;

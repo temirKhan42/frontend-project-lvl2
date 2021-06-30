@@ -3,11 +3,10 @@ import { readFileSync } from 'fs';
 import _ from 'lodash';
 import getParsingData from './parsers.js';
 
-const getDataCollection = (filePathCollection) => (
-  filePathCollection
-    .map((filePath) => (filePath.startsWith('/') ? filePath : path.resolve(filePath)))
-    .map((filePath) => readFileSync(filePath, 'utf8'))
-);
+const getData = (filepath) => {
+  const fullPath = filepath.startsWith('/') ? filepath : path.resolve(filepath);
+  return readFileSync(fullPath, 'utf8');
+};
 
 const includesArray = (array, subArr) => array.some((arr) => _.isEqual(arr, subArr));
 
@@ -31,9 +30,14 @@ const getDiff = ([data1, data2]) => {
 };
 
 const generateDiff = (...filepathCollection) => {
-  const ext = path.extname(filepathCollection[0]);
-  const dataCollection = getDataCollection(filepathCollection);
-  const parsingDataCollection = getParsingData(ext, dataCollection);
+  let extensions = [];
+  const parsingDataCollection = filepathCollection
+    .map((filepath) => {
+      extensions = [...extensions, path.extname(filepath)];
+      return getData(filepath);
+    })
+    .map((data, index) => getParsingData(extensions[index], data));
+
   return `{\n${getDiff(parsingDataCollection)}}`;
 };
 
