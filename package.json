@@ -1,6 +1,6 @@
 {
   "name": "@hexlet/code",
-  "version": "1.0.2",
+  "version": "0.1.2",
   "description": "[![Actions Status](https://github.com/temirKhan42/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/temirKhan42/frontend-project-lvl2/actions)",
   "main": "index.js",
   "type": "module",
@@ -12,7 +12,8 @@
     "url": "git+https://github.com/temirKhan42/frontend-project-lvl2.git"
   },
   "bin": {
-    "gendiff": "bin/gendiff.js"
+    "gendiff": "bin/gendiff.js",
+    "stylish": "bin/stylish.js"
   },
   "author": "",
   "license": "ISC",

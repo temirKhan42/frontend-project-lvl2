@@ -1,21 +1,66 @@
-import { Command } from 'commander/esm.mjs';
-import generateDiff from './src/generateDiff.js';
+import path from 'path';
+import { readFileSync } from 'fs';
+import _ from 'lodash';
+import getParsingData from './src/parsers.js';
 
-const genDiff = () => {
-  const program = new Command();
-
-  program
-    .version('1.0.0', '-v, --version', 'output the version number')
-    .helpOption('-h, --help', 'output usage information')
-    .option('-f --format [type]', 'output format')
-    .arguments('<filepath1> <filepath2>')
-    .description('Compares two configuration files and shows a difference.')
-    .action((filepath1, filepath2) => {
-      const result = generateDiff(filepath1, filepath2);
-      console.log(result);
-    });
-
-  program.parse(process.argv);
+const getData = (filepath) => {
+  const fullPath = filepath.startsWith('/') ? filepath : path.resolve(filepath);
+  return readFileSync(fullPath, 'utf8');
 };
 
-export default genDiff;
+const isUniq = (obj, oth) => {
+  if (_.isPlainObject(obj[1]) && _.isPlainObject(oth[1])) {
+    return obj[0] === oth[0];
+  }
+  return false;
+};
+
+const includesKeyValue = (arrayData, arrayKeyValue, isValueObject) => {
+  if (isValueObject) {
+    return arrayData.some(([key, value]) => (
+      _.isEqual(key, arrayKeyValue[0]) && _.isPlainObject(value)
+    ));
+  }
+  return arrayData.some((arr) => _.isEqual(arr, arrayKeyValue));
+};
+
+const getDiff = (data1, data2) => {
+  const data1KeyVal = Object.entries(data1);
+  const data2KeyVal = Object.entries(data2);
+
+  const unionData = _.unionWith(data2KeyVal, data1KeyVal, _.isEqual)
+    .sort(([key1], [key2]) => (key1 > key2 ? 1 : -1));
+  const uniqUnionData = _.uniqWith(unionData, isUniq);
+
+  return uniqUnionData.reduce((acc, [key, value]) => {
+    const isValueObject = _.isPlainObject(value);
+    const data1Val = data1[key];
+    const data2Val = data2[key];
+    const val = _.isPlainObject(data1Val)
+      && _.isPlainObject(data2Val)
+      ? getDiff(data1Val, data2Val) : value;
+
+    if (!includesKeyValue(data1KeyVal, [key, value], isValueObject)) {
+      acc[`+ ${key}`] = val;
+    } else if (!includesKeyValue(data2KeyVal, [key, value], isValueObject)) {
+      acc[`- ${key}`] = val;
+    } else {
+      acc[key] = val;
+    }
+    return acc;
+  }, {});
+};
+
+const generateDiff = (...filepathCollection) => {
+  let extensions = [];
+  const dataCollection = filepathCollection
+    .map((filepath) => {
+      extensions = [...extensions, path.extname(filepath)];
+      return getData(filepath);
+    })
+    .map((data, index) => getParsingData(extensions[index], data));
+
+  return getDiff(...dataCollection);
+};
+
+export default generateDiff;
