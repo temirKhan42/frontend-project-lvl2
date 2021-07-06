@@ -1,4 +1,5 @@
 ### Hexlet tests and linter status:
+
 [![Actions Status](https://github.com/temirKhan42/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/temirKhan42/frontend-project-lvl2/actions)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
@@ -8,7 +9,11 @@
 ![Action Status](https://github.com/temirKhan42/frontend-project-lvl2/actions/workflows/node.js.yml/badge.svg)
 
 ### Show options of the gendiff utility
+
 [![asciicast](https://asciinema.org/a/rS43Ua7AvAsOrvJWQzMOAFldS.svg)](https://asciinema.org/a/rS43Ua7AvAsOrvJWQzMOAFldS)
 
 ### Using the gendiff
-[![asciicast](https://asciinema.org/a/ge9TxWIHRbCuvbtcNY3GMgPU8.svg)](https://asciinema.org/a/ge9TxWIHRbCuvbtcNY3GMgPU8)
+
+- [![asciicast](https://asciinema.org/a/ge9TxWIHRbCuvbtcNY3GMgPU8.svg)](https://asciinema.org/a/ge9TxWIHRbCuvbtcNY3GMgPU8)
+
+- [![asciicast](https://asciinema.org/a/RCCr0k1l0rPFQR6MTGhvnV4Mr.svg)](https://asciinema.org/a/RCCr0k1l0rPFQR6MTGhvnV4Mr)
