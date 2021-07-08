@@ -3,16 +3,15 @@ import plain from './plain.js';
 import jsonFormatter from './jsonFormatter.js';
 
 const getFormatDiff = (diff, format) => {
-  let result = '';
   if (format === 'stylish') {
-    result = stylish(diff);
-  } else if (format === 'plain') {
-    result = plain(diff);
-  } else if (format === 'json') {
-    result = jsonFormatter(diff);
+    return stylish(diff);
+  } if (format === 'plain') {
+    return plain(diff);
+  } if (format === 'json') {
+    return jsonFormatter(diff);
   }
 
-  return result;
+  return '';
 };
 
 export default getFormatDiff;

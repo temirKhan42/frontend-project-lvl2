@@ -1,13 +1,12 @@
 import _ from 'lodash';
 
 const getCorrectValue = (value) => {
-  let val = value;
   if (_.isPlainObject(value)) {
-    val = '[complex value]';
-  } else if (typeof value === 'string') {
-    val = `'${val}'`;
+    return '[complex value]';
+  } if (typeof value === 'string') {
+    return `'${value}'`;
   }
-  return val;
+  return value;
 };
 
 const getProperty = (key) => (
@@ -23,8 +22,7 @@ const iter = (obj, path = '') => {
       const property = path === '' ? currentProp : `${path}.${currentProp}`;
       if (!key.startsWith('-') && !key.startsWith('+') && _.isPlainObject(value)) {
         return iter(value, property);
-      }
-      if (!key.startsWith('-') && !key.startsWith('+')) {
+      } if (!key.startsWith('-') && !key.startsWith('+')) {
         return '';
       }
 
@@ -34,18 +32,17 @@ const iter = (obj, path = '') => {
       const prevKey = array[index - 1]?.[0] === undefined ? '' : array[index - 1][0];
       const prevProp = getProperty(prevKey);
 
-      let line = '';
       if (key.startsWith('-') && currentProp === nextProp) {
         const nextValue = array[index + 1][1];
         const nextVal = getCorrectValue(nextValue);
-        line = `Property '${property}' was updated. From ${val} to ${nextVal}\n`;
-      } else if (key.startsWith('-')) {
-        line = `Property '${property}' was removed\n`;
-      } else if (key.startsWith('+') && currentProp !== prevProp) {
-        line = `Property '${property}' was added with value: ${val}\n`;
+        return `Property '${property}' was updated. From ${val} to ${nextVal}\n`;
+      } if (key.startsWith('-')) {
+        return `Property '${property}' was removed\n`;
+      } if (key.startsWith('+') && currentProp !== prevProp) {
+        return `Property '${property}' was added with value: ${val}\n`;
       }
 
-      return line;
+      return '';
     })
     .join('');
 

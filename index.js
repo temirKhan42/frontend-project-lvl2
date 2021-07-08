@@ -53,10 +53,10 @@ const getDiff = (data1, data2) => {
 };
 
 const genDiff = (filepath1, filepath2, format = 'stylish') => {
-  let extensions = [];
+  const extensions = [];
   const dataCollection = [filepath1, filepath2]
     .map((filepath) => {
-      extensions = [...extensions, path.extname(filepath)];
+      extensions.push(path.extname(filepath));
       return getData(filepath);
     })
     .map((data, index) => getParsingData(extensions[index], data));
