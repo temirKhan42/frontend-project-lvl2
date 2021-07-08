@@ -65,6 +65,8 @@ Property 'group1.nest' was updated. From [complex value] to 'str'
 Property 'group2' was removed
 Property 'group3' was added with value: [complex value]`;
 
+const jsonString = '{"common":{"+ follow":false,"setting1":"Value 1","- setting2":200,"- setting3":true,"+ setting3":null,"+ setting4":"blah blah","+ setting5":{"key5":"value5"},"setting6":{"doge":{"- wow":"","+ wow":"so much"},"key":"value","+ ops":"vops"}},"group1":{"- baz":"bas","+ baz":"bars","foo":"bar","- nest":{"key":"value"},"+ nest":"str"},"- group2":{"abc":12345,"deep":{"id":45}},"+ group3":{"deep":{"id":{"number":45}},"fee":100500}}';
+
 test('Get diffirence from JSON files in format: default', () => {
   const pathTofile1 = getFixturePath('filepath1.json');
   const pathTofile2 = getFixturePath('filepath2.json');
@@ -87,8 +89,22 @@ test('Get diffirence from JSON files in format: plain', () => {
 });
 
 test('Get diffirence from YAML files in format: plain', () => {
-  const pathTofile1 = getFixturePath('filepath1.json');
-  const pathTofile2 = getFixturePath('filepath2.json');
+  const pathTofile1 = getFixturePath('filepath1.yml');
+  const pathTofile2 = getFixturePath('filepath2.yml');
   const diff = generateDiff(pathTofile1, pathTofile2, 'plain');
   expect(diff).toBe(plainString);
+});
+
+test('Get diffirence from JSON files in format: json', () => {
+  const pathTofile1 = getFixturePath('filepath1.json');
+  const pathTofile2 = getFixturePath('filepath2.json');
+  const diff = generateDiff(pathTofile1, pathTofile2, 'json');
+  expect(diff).toBe(jsonString);
+});
+
+test('Get diffirence from YAML files in format: json', () => {
+  const pathTofile1 = getFixturePath('filepath1.yml');
+  const pathTofile2 = getFixturePath('filepath2.yml');
+  const diff = generateDiff(pathTofile1, pathTofile2, 'json');
+  expect(diff).toBe(jsonString);
 });
