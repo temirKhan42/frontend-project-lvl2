@@ -10,14 +10,15 @@ const getCorrectValue = (value) => {
   return val;
 };
 
+const getProperty = (key) => (
+  key.startsWith('-') || key.startsWith('+') ? key.slice(2) : key
+);
+
 const iter = (obj, path = '') => {
   const result = Object.entries(obj)
     .map(([key, value], index, array) => {
-      let line = '';
       const val = getCorrectValue(value);
-      const currentProp = key.startsWith('-')
-        || key.startsWith('+')
-        ? key.slice(2) : key;
+      const currentProp = getProperty(key);
 
       const property = path === '' ? currentProp : `${path}.${currentProp}`;
       if (!key.startsWith('-') && !key.startsWith('+') && _.isPlainObject(value)) {
@@ -28,15 +29,12 @@ const iter = (obj, path = '') => {
       }
 
       const nextKey = array[index + 1]?.[0] === undefined ? '' : array[index + 1][0];
-      const nextProp = nextKey.startsWith('-')
-        || nextKey.startsWith('+')
-        ? nextKey.slice(2) : nextKey;
+      const nextProp = getProperty(nextKey);
 
       const prevKey = array[index - 1]?.[0] === undefined ? '' : array[index - 1][0];
-      const prevProp = prevKey.startsWith('-')
-        || prevKey.startsWith('+')
-        ? prevKey.slice(2) : prevKey;
+      const prevProp = getProperty(prevKey);
 
+      let line = '';
       if (key.startsWith('-') && currentProp === nextProp) {
         const nextValue = array[index + 1][1];
         const nextVal = getCorrectValue(nextValue);
