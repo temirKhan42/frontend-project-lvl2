@@ -29,9 +29,9 @@ const getDiff = (data1, data2) => {
   const data1KeyVal = Object.entries(data1);
   const data2KeyVal = Object.entries(data2);
 
-  const unionData = _.unionWith(data2KeyVal, data1KeyVal, _.isEqual)
-    .sort(([key1], [key2]) => (key1 > key2 ? 1 : -1));
-  const uniqUnionData = _.uniqWith(unionData, isUniq);
+  const unionData = _.unionWith(data1KeyVal, data2KeyVal, _.isEqual);
+  const sortedUnionData = _.sortBy(unionData, [(arr) => (arr[0])]);
+  const uniqUnionData = _.uniqWith(sortedUnionData, isUniq);
 
   return uniqUnionData.reduce((acc, [key, value]) => {
     const isValueObject = _.isPlainObject(value);
