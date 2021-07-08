@@ -34,7 +34,7 @@ const getDiff = (data1, data2) => {
   const uniqUnionData = _.uniqWith(sortedUnionData, isUniq);
 
   return uniqUnionData.reduce((acc, [key, value]) => {
-    const result = acc;
+    const result = _.cloneDeep(acc);
     const isValueObject = _.isPlainObject(value);
     const data1Val = data1[key];
     const data2Val = data2[key];
@@ -54,13 +54,10 @@ const getDiff = (data1, data2) => {
 };
 
 const genDiff = (filepath1, filepath2, format = 'stylish') => {
-  const extensions = [];
-  const dataCollection = [filepath1, filepath2]
-    .map((filepath) => {
-      extensions[extensions.length] = path.extname(filepath);
-      return getData(filepath);
-    })
-    .map((data, index) => getParsingData(extensions[index], data));
+  const pathCollection = [filepath1, filepath2];
+  const dataCollection = pathCollection
+    .map((filepath) => getData(filepath))
+    .map((data, index) => getParsingData(path.extname(pathCollection[index]), data));
 
   const diff = getDiff(...dataCollection);
   return getFormatDiff(diff, format);
