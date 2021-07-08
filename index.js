@@ -25,6 +25,16 @@ const includesKeyValue = (arrayData, arrayKeyValue, isValueObject) => {
   return arrayData.some((arr) => _.isEqual(arr, arrayKeyValue));
 };
 
+const getValidKey = (data1, data2, [key, value], isValueObject) => {
+  if (!includesKeyValue(data1, [key, value], isValueObject)) {
+    return `+ ${key}`;
+  } if (!includesKeyValue(data2, [key, value], isValueObject)) {
+    return `- ${key}`;
+  }
+
+  return key;
+};
+
 const getDiff = (data1, data2) => {
   const data1KeyVal = Object.entries(data1);
   const data2KeyVal = Object.entries(data2);
@@ -42,14 +52,8 @@ const getDiff = (data1, data2) => {
       && _.isPlainObject(data2Val)
       ? getDiff(data1Val, data2Val) : value;
 
-    if (!includesKeyValue(data1KeyVal, [key, value], isValueObject)) {
-      result[`+ ${key}`] = val;
-    } else if (!includesKeyValue(data2KeyVal, [key, value], isValueObject)) {
-      result[`- ${key}`] = val;
-    } else {
-      result[key] = val;
-    }
-    return result;
+    const validKey = getValidKey(data1KeyVal, data2KeyVal, [key, value], isValueObject);
+    return { ...result, ...{ [validKey]: val } };
   }, {});
 };
 
