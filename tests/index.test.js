@@ -2,7 +2,6 @@ import { test, expect } from '@jest/globals';
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
 import generateDiff from '../index.js';
-import stylish from '../src/stylish.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -54,16 +53,42 @@ const string = `{
     }
 }`;
 
-test('Generate diffirence from JSON files', () => {
+const plainString = `Property 'common.follow' was added with value: false
+Property 'common.setting2' was removed
+Property 'common.setting3' was updated. From true to null
+Property 'common.setting4' was added with value: 'blah blah'
+Property 'common.setting5' was added with value: [complex value]
+Property 'common.setting6.doge.wow' was updated. From '' to 'so much'
+Property 'common.setting6.ops' was added with value: 'vops'
+Property 'group1.baz' was updated. From 'bas' to 'bars'
+Property 'group1.nest' was updated. From [complex value] to 'str'
+Property 'group2' was removed
+Property 'group3' was added with value: [complex value]`;
+
+test('Get diffirence from JSON files in format: default', () => {
   const pathTofile1 = getFixturePath('filepath1.json');
   const pathTofile2 = getFixturePath('filepath2.json');
   const diff = generateDiff(pathTofile1, pathTofile2);
-  expect(stylish(diff)).toBe(string);
+  expect(diff).toBe(string);
 });
 
-test('Generate diffirence from YAML files', () => {
+test('Get diffirence from YAML files in format: default', () => {
   const pathTofile1 = getFixturePath('filepath1.yml');
   const pathTofile2 = getFixturePath('filepath2.yml');
   const diff = generateDiff(pathTofile1, pathTofile2);
-  expect(stylish(diff)).toBe(string);
+  expect(diff).toBe(string);
+});
+
+test('Get diffirence from JSON files in format: plain', () => {
+  const pathTofile1 = getFixturePath('filepath1.json');
+  const pathTofile2 = getFixturePath('filepath2.json');
+  const diff = generateDiff(pathTofile1, pathTofile2, 'plain');
+  expect(diff).toBe(plainString);
+});
+
+test('Get diffirence from YAML files in format: plain', () => {
+  const pathTofile1 = getFixturePath('filepath1.json');
+  const pathTofile2 = getFixturePath('filepath2.json');
+  const diff = generateDiff(pathTofile1, pathTofile2, 'plain');
+  expect(diff).toBe(plainString);
 });

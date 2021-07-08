@@ -2,6 +2,7 @@ import path from 'path';
 import { readFileSync } from 'fs';
 import _ from 'lodash';
 import getParsingData from './src/parsers.js';
+import getFormatDiff from './formatters/index.js';
 
 const getData = (filepath) => {
   const fullPath = filepath.startsWith('/') ? filepath : path.resolve(filepath);
@@ -51,16 +52,17 @@ const getDiff = (data1, data2) => {
   }, {});
 };
 
-const generateDiff = (...filepathCollection) => {
+const genDiff = (filepath1, filepath2, format = 'stylish') => {
   let extensions = [];
-  const dataCollection = filepathCollection
+  const dataCollection = [filepath1, filepath2]
     .map((filepath) => {
       extensions = [...extensions, path.extname(filepath)];
       return getData(filepath);
     })
     .map((data, index) => getParsingData(extensions[index], data));
 
-  return getDiff(...dataCollection);
+  const diff = getDiff(...dataCollection);
+  return getFormatDiff(diff, format);
 };
 
-export default generateDiff;
+export default genDiff;
