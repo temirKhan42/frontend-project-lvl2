@@ -34,7 +34,7 @@ const getDiff = (data1, data2) => {
   const uniqUnionData = _.uniqWith(sortedUnionData, isUniq);
 
   return uniqUnionData.reduce((acc, [key, value]) => {
-    const result = _.cloneDeep(acc);
+    const result = { ...acc };
     const isValueObject = _.isPlainObject(value);
     const data1Val = data1[key];
     const data2Val = data2[key];
